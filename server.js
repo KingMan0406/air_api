@@ -1,4 +1,4 @@
-require('dotenv').config(); // Add this line at the top
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -10,7 +10,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const mongoURI = process.env.DATABASE_URL || 'mongodb+srv://kingman0406:inai2203114@cluster0.cnonrgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = process.env.DATABASE_URL || 'mongodb+srv://kingman0406:<inai2203114>@cluster0.cnonrgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -23,8 +23,9 @@ db.once('open', () => {
 // Routes
 app.use('/api', require('./routes/api'));
 
-const port = process.env.PORT || 5000; // Use environment variable for port
+const port = process.env.PORT || 5000;
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
 
