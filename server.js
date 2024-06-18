@@ -11,7 +11,7 @@ app.use(cors());
 
 const mongoose = require('mongoose');
 
-const mongoURI = process.env.DATABASE_URL || 'mongodb+srv://kingman0406:<inai2203114>@cluster0.cnonrgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const mongoURI = process.env.DATABASE_URL || 'mongodb+srv://kingman0406:inai2203114@cluster0.cnonrgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
