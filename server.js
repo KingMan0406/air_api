@@ -1,15 +1,14 @@
+require('dotenv').config(); // Add this line at the top
 const express = require('express');
-
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const mongoose = require('mongoose');
 
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
-
-const mongoose = require('mongoose');
 
 const mongoURI = process.env.DATABASE_URL || 'mongodb+srv://kingman0406:inai2203114@cluster0.cnonrgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 
@@ -21,11 +20,11 @@ db.once('open', () => {
     console.log('Connected to MongoDB');
 });
 
-
 // Routes
 app.use('/api', require('./routes/api'));
 
-const port = 5000;
+const port = process.env.PORT || 5000; // Use environment variable for port
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
