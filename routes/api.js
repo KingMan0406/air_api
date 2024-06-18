@@ -8,7 +8,7 @@ router.post('/addFlight', async (req, res) => {
     const flight = new Flight(req.body);
     try {
         const savedFlight = await flight.save();
-        res.json(savedFlight);
+        res.status(201).json(savedFlight);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -40,7 +40,7 @@ router.post('/bookTicket', async (req, res) => {
     const booking = new Booking(req.body);
     try {
         const savedBooking = await booking.save();
-        res.json(savedBooking);
+        res.status(201).json(savedBooking);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -65,3 +65,4 @@ router.post('/cancelBooking', async (req, res) => {
 });
 
 module.exports = router;
+
