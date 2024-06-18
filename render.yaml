@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: ticket-booking-backend
+    env: node
+    plan: free
+    buildCommand: 'npm install'
+    startCommand: 'node server.js'
+    envVars:
+      - key: DATABASE_URL
+        value: mongodb+srv://kingman0406:<password>@cluster0.cnonrgv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+    regions:
+      - oregon
+
