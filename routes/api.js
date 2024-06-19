@@ -3,64 +3,50 @@ const router = express.Router();
 const Flight = require('../models/Flight');
 const Booking = require('../models/Booking');
 
-// Add a new flight
-router.post('/addFlight', async (req, res) => {
-    const flight = new Flight(req.body);
+// Get all flights
+router.get('/flights', async (req, res) => {
     try {
-        const savedFlight = await flight.save();
-        res.status(201).json(savedFlight);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        const flights = await Flight.find();
+        res.json(flights);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 
-// Search flights
-router.post('/searchFlights', async (req, res) => {
-    const { departureCity, destinationCity } = req.body;
+// Get a single flight by ID
+router.get('/flights/:id', async (req, res) => {
     try {
-        const flights = await Flight.find({ departureCity, destinationCity });
-        res.json(flights);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
-
-// Get upcoming flights
-router.get('/upcomingFlights', async (req, res) => {
-    try {
-        const flights = await Flight.find({ departureTime: { $gte: new Date() } });
-        res.json(flights);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        const flight = await Flight.findById(req.params.id);
+        if (flight == null) {
+            return res.status(404).json({ message: 'Flight not found' });
+        }
+        res.json(flight);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 
 // Book a ticket
 router.post('/bookTicket', async (req, res) => {
-    const booking = new Booking(req.body);
-    try {
-        const savedBooking = await booking.save();
-        res.status(201).json(savedBooking);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
-});
+    const { firstName, lastName, phone, passport, departureCity, destinationCity, date, flightId, amount } = req.body;
 
-// Cancel a booking
-router.post('/cancelBooking', async (req, res) => {
-    const { bookingId } = req.query;
+    const booking = new Booking({
+        firstName,
+        lastName,
+        phone,
+        passport,
+        departureCity,
+        destinationCity,
+        date,
+        flightId,
+        amount,
+    });
+
     try {
-        const booking = await Booking.findById(bookingId);
-        if (booking) {
-            booking.status = 'cancelled';
-            const refundAmount = booking.amount * 0.5;
-            await booking.save();
-            res.json({ message: `Booking cancelled. Refund amount: ${refundAmount}` });
-        } else {
-            res.status(404).json({ message: 'Booking not found' });
-        }
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+        const newBooking = await booking.save();
+        res.status(201).json(newBooking);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
 });
 
