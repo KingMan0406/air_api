@@ -26,6 +26,17 @@ router.get('/flights/:id', async (req, res) => {
     }
 });
 
+// Get all bookings
+router.get('/bookings', async (req, res) => {
+    try {
+        const bookings = await Booking.find();
+        res.json(bookings);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+
 // Book a ticket
 router.post('/bookTicket', async (req, res) => {
     const { firstName, lastName, phone, passport, departureCity, destinationCity, date, flightId, amount } = req.body;
